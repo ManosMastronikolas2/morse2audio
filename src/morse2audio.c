@@ -19,7 +19,7 @@ int openEngine(){
         return -1;
     }
 
-    ma_waveform_config beepConfig = ma_waveform_config_init(
+    beepConfig = ma_waveform_config_init(
         ma_format_f32,         // Audio format
         2,                     // Channels (Stereo)
         48000,                 // Sample rate
@@ -50,6 +50,10 @@ void playBeep(char c){
     ma_sound_set_stop_time_in_pcm_frames(&beepSound, currTime + frames);
     ma_sound_start(&beepSound);
 
+    while(ma_engine_get_time(&eng) < currTime + frames){}
+
+    ma_uint64 gt = ma_engine_get_time(&eng);
+    while(ma_engine_get_time(&eng) < gt + 6000){}
     ma_sound_uninit(&beepSound);
 
 }
@@ -57,9 +61,8 @@ void playBeep(char c){
 void playFile(){
     char c;
     while((c = fgetc(f)) != EOF){
-        printf("%c",c);
         if(c!='-' && c!='.'){
-            printf("Invalid character!\n");
+            printf("Invalid character: %c!\n", c);
         }else{
             playBeep(c);
         }
