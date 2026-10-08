@@ -1,5 +1,5 @@
 CC       ?= cc
-CFLAGS   ?= -std=c11 -Wall -Wextra -O2 -g
+CFLAGS   ?= -std=c11 -Wall -Wextra -O2 -g -pthread -lm -ldl 
 CPPFLAGS ?= -Iminiaudio-0.11.25
 LDLIBS   ?= -lm -lpthread -ldl
 
